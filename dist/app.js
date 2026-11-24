@@ -19,7 +19,13 @@
   };
 
   // 索引番号は data の no を使い、無ければ登録順で固定する（フィルター後の順位は使わない）。
-  const works=data.works.map((w,i)=>({...w,status:statusOf(w),no:Number.isFinite(w.no)?w.no:i+1}));
+  const works=data.works.map((w,i)=>({...w,status:statusOf(w),no:Number.isFinite(w.no)?w.no:i+1,genres:Array.isArray(w.genres)?w.genres:[]}));
+
+  // ジャンル：data.genres の順にタブを並べ、最後に未分類（UNSORTED）を置く。
+  const genres=[{id:'all',label:'ALL',note:'すべての作品'},...(data.genres||[]),{id:'unsorted',label:'UNSORTED',note:'ジャンル未設定'}];
+  const genreLabel=id=>(genres.find(g=>g.id===id)||{label:String(id).toUpperCase()}).label;
+  const inGenre=(w,g)=>g==='all'||(g==='unsorted'?w.genres.length===0:w.genres.includes(g));
+  const state={genre:'all',status:'all'};
 
   // 版表示：data.meta.updated（YYYY-MM-DD）を明示的に表示する。
   const updated=data.meta&&data.meta.updated;
@@ -46,12 +52,13 @@
         <span class="work-no" aria-hidden="true">${esc(no)}</span>
         <h3 class="work-title" id="work-${esc(w.id)}"><span class="sr-only">No.${esc(no)} </span>${title}</h3>
         <p class="work-description">${esc(w.description)}</p>
+        ${w.genres.length||(w.tags&&w.tags.length)?`<p class="work-genres">${[...w.genres.map(genreLabel),...(w.tags||[])].map(esc).join(' · ')}</p>`:''}
         <p class="work-meta">${esc(w.origin)}<br><i class="work-stamp"><span class="sr-only">状態：</span>${esc(label)}</i></p>
       </article>`;
   }
 
-  function renderWorks(filter='all'){
-    const list=works.filter(w=>filter==='all'||w.status===filter);
+  function renderWorks(){
+    const list=works.filter(w=>inGenre(w,state.genre)&&(state.status==='all'||w.status===state.status));
     emptyState.hidden=list.length>0;
     workList.innerHTML=list.map(workCard).join('');
   }
@@ -60,15 +67,23 @@
     <small>${esc(r.source)}</small><h3>${esc(r.title)}</h3><p>${esc(r.note)}</p><span class="reference-tags">${r.tags.map(esc).join(' · ')}</span>
   </a>`).join('');
 
+  const genreTabs=document.getElementById('genreTabs');
+  genreTabs.innerHTML=genres.map(g=>{
+    const n=works.filter(w=>inGenre(w,g.id)).length;
+    return `<button class="genre-tab${g.id==='all'?' active':''}${n?'':' empty'}" type="button" data-genre="${esc(g.id)}" aria-pressed="${g.id==='all'}" title="${esc(g.note||'')}">${esc(g.label)}<sup aria-label="${n}件">${n}</sup></button>`;
+  }).join('');
+
   const filters=[...document.querySelectorAll('.filter')];
+  const tabs=[...genreTabs.querySelectorAll('.genre-tab')];
   const filterStatus=document.getElementById('filterStatus');
-  function selectFilter(button){
-    filters.forEach(b=>{const on=b===button;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});
-    renderWorks(button.dataset.filter);
-    const count=workList.children.length;
-    if(filterStatus) filterStatus.textContent=`${button.textContent}：${count}件`;
+  function press(group,button){group.forEach(b=>{const on=b===button;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on));});}
+  function announce(){
+    if(!filterStatus) return;
+    const g=tabs.find(b=>b.dataset.genre===state.genre), f=filters.find(b=>b.dataset.filter===state.status);
+    filterStatus.textContent=`${genreLabel(state.genre)} / ${f?f.textContent:'ALL'}：${workList.children.length}件`;
   }
-  filters.forEach(button=>button.addEventListener('click',()=>selectFilter(button)));
+  filters.forEach(button=>button.addEventListener('click',()=>{press(filters,button);state.status=button.dataset.filter;renderWorks();announce();}));
+  tabs.forEach(button=>button.addEventListener('click',()=>{press(tabs,button);state.genre=button.dataset.genre;renderWorks();announce();}));
 
   const menu=document.getElementById('siteNav'),menuButton=document.getElementById('menuButton');
   const closeMenu=(focusButton)=>{menu.classList.remove('open');menuButton.setAttribute('aria-expanded','false');if(focusButton)menuButton.focus();};

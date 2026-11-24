@@ -3,6 +3,16 @@ window.UREI_INDEX = {
   meta: {
     updated: "2026-11-24"
   },
+  // ジャンルタブ。works の genres にここの id を入れる（複数可）。空なら UNSORTED に入る。
+  genres: [
+    { id: "photo", label: "PHOTO", note: "写真編集" },
+    { id: "music", label: "MUSIC", note: "楽器・録音・VSTプラグイン・DTMツール" },
+    { id: "web", label: "WEB", note: "インタラクティブなWebアプリ・Webページ" },
+    { id: "share", label: "SHARE", note: "ファイル共有" },
+    { id: "save", label: "SAVE", note: "サイト保存" },
+    { id: "type", label: "TYPE", note: "フォント・文字" }
+  ],
+  // tags: 自由なタグ。MUSIC では INSTRUMENT / RECORDING / PLUGIN / DTM TOOL を使う。
   // status: "live" | "development" | "seeking" | "archived"
   // no: 索引番号。一度付けたら変えない（フィルターや並び替えで振り直さない）。
   works: [
@@ -15,6 +25,7 @@ window.UREI_INDEX = {
       statusLabel: "LIVE",
       origin: "GITHUB PAGES",
       url: "https://8viliv8.github.io/Lens/noir-camera-v7/?v=75",
+      genres: ["photo"],
       ink: "#254762"
     },
     {
@@ -26,6 +37,7 @@ window.UREI_INDEX = {
       statusLabel: "LIVE",
       origin: "CLAUDE ARTIFACT",
       url: "https://claude.ai/artifact/FBF1arhU1RAFNV9D5MqymL",
+      genres: ["type", "web"],
       ink: "#27342f"
     },
     {
@@ -37,6 +49,7 @@ window.UREI_INDEX = {
       statusLabel: "SOURCE HUNTING",
       origin: "LOCATION UNKNOWN",
       url: "",
+      genres: ["share"],
       ink: "#6d5369"
     },
     {
@@ -48,8 +61,10 @@ window.UREI_INDEX = {
       statusLabel: "IN DEVELOPMENT",
       origin: "THIS INDEX",
       url: "#references",
+      genres: [],
       ink: "#a34533"
     }
+    // @@WORKS_END — 管理画面はこの行の直前に作品を追加する。この行は消さない。
   ],
   references: [
     {title:"LETTERPRESS EXPERIENCE",source:"CLAUDE ARTIFACT",note:"紙、インク、文字組み、浮遊操作パネル。母艦の視覚言語の起点。",tags:["PAPER","TYPE","INTERACTION"],url:"https://claude.ai/artifact/FBF1arhU1RAFNV9D5MqymL",color:"#27342f"},
