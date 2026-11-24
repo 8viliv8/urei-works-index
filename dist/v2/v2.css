@@ -15,6 +15,7 @@
   --s-title:clamp(1.45rem,2.4vw,2rem);
   --s-body:1rem;
   --s-label:.8rem;
+  --s-item:clamp(1.05rem,1.45vw,1.25rem);
   --measure:1120px;
   --gutter:clamp(22px,6vw,72px);
 }
@@ -73,13 +74,14 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 /* ===== 目録 ===== */
 .catalogue{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
-.item{position:relative;display:grid;grid-template-columns:56px minmax(0,1.15fr) minmax(0,1fr) 190px;grid-template-areas:"no title desc meta";gap:6px 18px;align-items:baseline;padding:26px 0 24px;border-bottom:1px solid var(--rule);transition:background .2s}
+.item{position:relative;display:grid;grid-template-columns:56px minmax(0,1.15fr) minmax(0,1fr) 190px;grid-template-areas:"no title desc meta";gap:2px 18px;align-items:baseline;padding:14px 0 13px;border-bottom:1px solid var(--rule);transition:background .2s}
 .item .no{grid-area:no;font:400 var(--s-label)/1 var(--en);letter-spacing:.1em;color:var(--ink-3);font-variant-numeric:oldstyle-nums}
-.item .title{grid-area:title;margin:0;font:500 var(--s-title)/1.3 var(--en);letter-spacing:.08em}
+.item .title{grid-area:title;margin:0;font:500 var(--s-item)/1.35 var(--en);letter-spacing:.08em}
 .item .title .pressable{display:block}
-.item .desc{grid-area:desc;margin:0;color:var(--ink-2);font-size:.94rem;line-height:1.85}
-.item .meta{grid-area:meta;margin:0;text-align:right;font:400 var(--s-label)/1.7 var(--en);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
-.item .meta>span{display:block}
+.item .desc{grid-area:desc;margin:0;color:var(--ink-2);font-size:.88rem;line-height:1.7}
+.item .meta{grid-area:meta;margin:0;text-align:right;font:400 .74rem/1.55 var(--en);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.item .meta>span{display:inline}
+.item .meta>span+span:not(.state)::before{content:" · "}
 .item .state{display:block;color:var(--ink)}
 .item .state::before{content:"";display:inline-block;width:5px;height:5px;margin:0 .6em .15em 0;border-radius:50%;background:currentColor;vertical-align:middle}
 .item.development .state{color:var(--ink-2)}
@@ -135,9 +137,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .hero{padding-top:64px;padding-bottom:72px}
   .hero h1{font-size:clamp(1.5rem,7.4vw,2.6rem);letter-spacing:.04em}
   .hero-copy{margin-top:30px;font-size:.95rem}
-  .item{grid-template-columns:34px minmax(0,1fr);grid-template-areas:"no title" ". desc" ". meta";padding:22px 0 20px}
-  .item .meta{text-align:left;display:flex;flex-wrap:wrap;gap:0 1.2em}
+  .item{grid-template-columns:34px minmax(0,1fr);grid-template-areas:"no title" ". desc" ". meta";padding:13px 0 12px}
+  .item .meta{text-align:left;display:flex;flex-wrap:wrap;gap:0 1em}
   .item .meta>span,.item .state{display:inline}
+  .item .meta>span+span:not(.state)::before{content:none}
   .refs{grid-template-columns:1fr}
   .block-head{grid-template-columns:34px 1fr}
   .switch.genre{font-size:.86rem}
