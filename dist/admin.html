@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#eeede8">
+  <title>ŪRĒI — ADMIN</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .admin{min-height:100svh;padding:120px max(7vw,24px) 80px;max-width:760px;margin:0 auto}
+    .admin h1{font:500 clamp(2rem,5vw,3.4rem)/1.15 EB Garamond,serif;letter-spacing:.12em;text-shadow:none;margin:0 0 10px}
+    .admin .lead{margin:0 0 54px;font:400 .95rem/1.9 "Shippori Mincho",serif;letter-spacing:.05em}
+    .panel{border-top:1px solid var(--ink);padding-top:30px}
+    .panel[hidden]{display:none}
+    .field{display:block;margin:0 0 26px}
+    .field>span{display:block;margin-bottom:9px;font-size:10px;letter-spacing:.18em;color:#6f716a}
+    .field input[type=text],.field input[type=url],.field input[type=password],.field textarea,.field select{width:100%;padding:12px 2px;border:0;border-bottom:1px solid rgba(39,52,47,.35);background:transparent;color:var(--ink);font:400 16px/1.5 "Shippori Mincho",serif;letter-spacing:.03em;border-radius:0}
+    .field textarea{min-height:76px;resize:vertical}
+    .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-bottom-color:var(--ink);box-shadow:0 1px 0 var(--ink)}
+    .checks{display:flex;flex-wrap:wrap;gap:8px}
+    .checks label{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid rgba(39,52,47,.22);border-radius:999px;font-size:11px;letter-spacing:.12em;cursor:pointer}
+    .checks input{accent-color:#27342f;margin:0}
+    .checks label:has(input:checked){background:var(--ink);color:var(--sheet)}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:34px}
+    .press{padding:13px 22px;border:1px solid var(--ink);font-size:11px;letter-spacing:.18em;background:var(--ink);color:var(--sheet)}
+    .press.ghost{background:transparent;color:var(--ink)}
+    .press:disabled{opacity:.45;cursor:wait}
+    .press:focus-visible,.textlink:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+    .textlink{font-size:10px;letter-spacing:.14em;border-bottom:1px solid currentColor;color:#6f716a}
+    .message{margin:26px 0 0;padding:14px 16px;border-left:3px solid var(--ink);background:rgba(246,243,233,.7);font:400 .9rem/1.8 "Shippori Mincho",serif}
+    .message.error{border-left-color:var(--shu);color:#7c2f22}
+    .message[hidden]{display:none}
+    .message a{border-bottom:1px solid currentColor}
+    .note{font:400 .85rem/1.9 "Shippori Mincho",serif;color:#55584f}
+    .note ol{padding-left:1.3em;margin:8px 0 26px}
+    .note code{font:12px/1 ui-monospace,Menlo,monospace;background:rgba(39,52,47,.07);padding:2px 4px}
+    .hidden-user{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="索引へ戻る"><span>ŪRĒI</span><i aria-hidden="true"></i></a>
+    <div class="edition">ADMIN</div>
+    <a class="menu-button" href="./">INDEX</a>
+  </header>
+
+  <main class="admin">
+    <h1>ADD A WORK</h1>
+    <p class="lead">リンクを貼るだけで、索引へ刷り込む。</p>
+
+    <!-- 読み込み中 -->
+    <section class="panel" id="loadingPanel"><p class="note">準備しています…</p></section>
+
+    <!-- ログイン -->
+    <form class="panel" id="loginPanel" hidden autocomplete="on">
+      <input class="hidden-user" type="text" name="username" autocomplete="username" value="urei-admin" tabindex="-1" aria-hidden="true">
+      <label class="field"><span>PASSWORD</span><input type="password" id="loginPass" name="password" autocomplete="current-password" required></label>
+      <div class="actions">
+        <button class="press" type="submit" id="loginButton">ENTER</button>
+        <button class="textlink" type="button" id="toSetup">鍵を設定し直す</button>
+      </div>
+      <p class="message error" id="loginMessage" role="alert" hidden></p>
+    </form>
+
+    <!-- 初回設定 -->
+    <form class="panel" id="setupPanel" hidden autocomplete="on">
+      <div class="note">
+        <p>最初に一度だけ行う設定です。GitHubの鍵（アクセストークン）をパスワードで暗号化して保存します。保存されるのは暗号化された鍵だけで、鍵そのものとパスワードはどこにも保存されません。</p>
+        <ol>
+          <li><a class="textlink" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHubの鍵の作成画面</a>を開く</li>
+          <li>Expiration：1年など。Repository access：<code>Only select repositories</code> → <code>urei-works-index</code></li>
+          <li>Permissions → Repository permissions → <code>Contents</code> を <code>Read and write</code></li>
+          <li>作成された <code>github_pat_…</code> を下に貼る</li>
+        </ol>
+      </div>
+      <input class="hidden-user" type="text" name="username" autocomplete="username" value="urei-admin" tabindex="-1" aria-hidden="true">
+      <label class="field"><span>GITHUB TOKEN</span><input type="password" id="setupToken" autocomplete="off" required></label>
+      <label class="field"><span>PASSWORD（16文字以上。長いほど安全）</span><input type="password" id="setupPass" name="new-password" autocomplete="new-password" minlength="16" required></label>
+      <label class="field"><span>PASSWORD（確認）</span><input type="password" id="setupPass2" autocomplete="new-password" minlength="16" required></label>
+      <div class="actions">
+        <button class="press" type="submit" id="setupButton">SAVE KEY</button>
+        <button class="textlink" type="button" id="toLogin" hidden>ログインへ戻る</button>
+      </div>
+      <p class="message" id="setupMessage" role="status" hidden></p>
+    </form>
+
+    <!-- 作品追加 -->
+    <form class="panel" id="addPanel" hidden>
+      <label class="field"><span>URL</span><input type="url" id="addUrl" inputmode="url" placeholder="https://" required></label>
+      <label class="field"><span>TITLE（空欄ならURLから仮の名前を付ける）</span><input type="text" id="addTitle"></label>
+      <fieldset class="field" style="border:0;padding:0;margin:0 0 26px">
+        <legend style="padding:0;margin-bottom:9px;font-size:10px;letter-spacing:.18em;color:#6f716a">GENRE（選ばなければ UNSORTED）</legend>
+        <div class="checks" id="genreChecks"></div>
+      </fieldset>
+      <label class="field"><span>STATUS</span>
+        <select id="addStatus">
+          <option value="live">LIVE — 現在開ける</option>
+          <option value="development">IN DEVELOPMENT — 制作中・実験中</option>
+          <option value="seeking">SOURCE HUNTING — URLやソースを捜索中</option>
+          <option value="archived">ARCHIVED — ソースを保存済み</option>
+        </select>
+      </label>
+      <label class="field"><span>NOTE（ひとこと。説明文になる）</span><textarea id="addNote"></textarea></label>
+      <div class="actions">
+        <button class="press" type="submit" id="addButton">PRESS INTO INDEX</button>
+        <button class="textlink" type="button" id="logout">LOG OUT</button>
+      </div>
+      <p class="message" id="addMessage" role="status" hidden></p>
+    </form>
+  </main>
+
+  <footer>
+    <span>ŪRĒI / ADMIN</span>
+    <a id="inkButton" href="./">BACK TO INDEX</a>
+    <span>SET IN JAPAN</span>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
