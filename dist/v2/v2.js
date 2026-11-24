@@ -25,7 +25,7 @@
     const no=String(w.no).padStart(2,'0');
     const internal=w.url&&w.url.startsWith('#');
     const kinds=[...w.genres.map(genreLabel),...(w.tags||[])].filter(Boolean).map(esc).join(' · ');
-    const titleText=`<span class="pressable" data-press>${esc(w.title)}</span>`;
+    const titleText=`<span class="pressable" data-press data-depth=".55">${esc(w.title)}</span>`;
     const title=w.url
       ?`<a class="link" href="${esc(w.url)}"${internal?'':' target="_blank" rel="noopener"'}>${titleText}<span class="sr-only">${internal?'（このページ内へ移動）':'（新しいタブで開く）'}</span></a>`
       :`${titleText}<span class="sr-only">（公開URL未登録）</span>`;
@@ -59,7 +59,7 @@
 
   // 参照
   $('referenceList').innerHTML=(data.references||[]).map(r=>`<li class="ref"><a href="${esc(r.url)}" target="_blank" rel="noopener">
-    <small>${esc(r.source)}</small><h3><span class="pressable" data-press>${esc(r.title)}</span></h3><p>${esc(r.note)}</p><span class="tags">${(r.tags||[]).map(esc).join(' · ')}</span></a></li>`).join('');
+    <small>${esc(r.source)}</small><h3><span class="pressable" data-press data-depth=".55">${esc(r.title)}</span></h3><p>${esc(r.note)}</p><span class="tags">${(r.tags||[]).map(esc).join(' · ')}</span></a></li>`).join('');
 
   // 素材の切り替え（紙 / 白い革）
   const matButtons=[...document.querySelectorAll('.material button')];
