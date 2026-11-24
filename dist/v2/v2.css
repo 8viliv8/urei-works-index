@@ -85,6 +85,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .item .desc{grid-area:desc;margin:0;color:var(--ink-2);font-size:.88rem;line-height:1.7}
 .item .meta{grid-area:meta;margin:0;text-align:right;font:400 .74rem/1.55 var(--en);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .item .meta>span{display:inline}
+.item .meta>.state{display:block}
 .item .meta>span+span:not(.state)::before{content:" · "}
 .item .state{display:block;color:var(--ink)}
 .item .state::before{content:"";display:inline-block;width:5px;height:5px;margin:0 .6em .15em 0;border-radius:50%;background:currentColor;vertical-align:middle}
@@ -144,7 +145,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .hero-copy{margin-top:16px;font-size:.88rem}
   .item{grid-template-columns:34px minmax(0,1fr);grid-template-areas:"no title" ". desc" ". meta";padding:13px 0 12px}
   .item .meta{text-align:left;display:flex;flex-wrap:wrap;gap:0 1em}
-  .item .meta>span,.item .state{display:inline}
+  .item .meta>span,.item .state,.item .meta>.state{display:inline}
   .item .meta>span+span:not(.state)::before{content:none}
   .refs{grid-template-columns:1fr}
   .block-head{grid-template-columns:34px 1fr}
@@ -152,4 +153,28 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .colophon{flex-direction:column;gap:8px}
   .colophon a{margin:0 22px 0 0}
 }
+/* ===== 素材切り替え ===== */
+.colophon .material{display:flex;gap:0}
+.colophon .material button{font:inherit;letter-spacing:inherit;color:var(--ink-3);padding:0}
+.colophon .material button+button::before{content:"/";margin:0 .8em;color:rgba(35,38,42,.25)}
+.colophon .material button[aria-pressed=true]{color:var(--ink);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+
+/* ===== 白い革（Leather）=====
+   粒の立った白い革に、熱で深く押したような刷り。紙より押し込みを深く、インクは同じ。 */
+html[data-material=leather]{
+  --paper:#f3f0e9;
+  --rule:rgba(35,38,42,.13);
+  --press-depth-k:2.3;
+}
+html[data-material=leather] .paper{background:
+  radial-gradient(ellipse 120% 80% at 30% 0%,rgba(255,255,255,.7),transparent 65%),
+  radial-gradient(ellipse 90% 70% at 85% 100%,rgba(120,105,85,.05),transparent 70%),
+  var(--paper)}
+/* 革の粒（シボ）：凹凸の陰影だけを薄く重ねる */
+html[data-material=leather] .paper::after{content:"";position:absolute;inset:0;opacity:.32;mix-blend-mode:multiply;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 260 260' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='l' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.3' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='1.5' diffuseConstant='1.12'%3E%3CfeDistantLight azimuth='235' elevation='62'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23l)'/%3E%3C/svg%3E") 0 0/260px 260px}
+html[data-material=leather] body{background:transparent}
+/* ステッチ（縫い目） */
+html[data-material=leather] body::before{content:"";position:fixed;inset:12px;z-index:30;pointer-events:none;border:1px dashed rgba(90,80,66,.28);border-radius:10px}
+@media(max-width:600px){html[data-material=leather] body::before{inset:7px;border-radius:8px}}
+
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}

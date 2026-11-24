@@ -61,6 +61,16 @@
   $('referenceList').innerHTML=(data.references||[]).map(r=>`<li class="ref"><a href="${esc(r.url)}" target="_blank" rel="noopener">
     <small>${esc(r.source)}</small><h3><span class="pressable" data-press>${esc(r.title)}</span></h3><p>${esc(r.note)}</p><span class="tags">${(r.tags||[]).map(esc).join(' · ')}</span></a></li>`).join('');
 
+  // 素材の切り替え（紙 / 白い革）
+  const matButtons=[...document.querySelectorAll('.material button')];
+  const setMaterial=(m,save)=>{
+    if(m==='leather') document.documentElement.dataset.material='leather'; else delete document.documentElement.dataset.material;
+    matButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.material===m)));
+    if(save){try{localStorage.setItem('urei-material',m);}catch(e){}}
+  };
+  setMaterial(document.documentElement.dataset.material==='leather'?'leather':'paper',false);
+  matButtons.forEach(b=>b.addEventListener('click',()=>{setMaterial(b.dataset.material,true);if(press)press.render(document,{force:true});}));
+
   render();
   if(press) press.render(document);
 })();

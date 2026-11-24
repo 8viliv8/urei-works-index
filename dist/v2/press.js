@@ -92,7 +92,8 @@
     const wearRaw=parseFloat(el.dataset.wear??cs.getPropertyValue('--press-wear'));
     const wear=Number.isFinite(wearRaw)?wearRaw:0; // かすれの量（0 = かすれなし）
     const wearK=wear*(.5+.5*smooth(16,48,fontSize)); // 小さい文字はかすれを控えめにして読みやすく
-    const depth=parseFloat(el.dataset.depth||cs.getPropertyValue('--press-depth'))||1;
+    const depthK=parseFloat(document.documentElement.dataset.material==='leather'?getComputedStyle(document.documentElement).getPropertyValue('--press-depth-k'):1)||1;
+    const depth=(parseFloat(el.dataset.depth||cs.getPropertyValue('--press-depth'))||1)*depthK; // 素材ごとの押し込みの深さ
     const coarse=Math.max(5,fs*.09), fine=Math.max(1.1,px*1.05);
     const lx=-.55,ly=-.83; // 左上からの光
 
