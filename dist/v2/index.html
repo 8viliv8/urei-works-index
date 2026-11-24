@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fbfaf7">
+  <meta name="description" content="Ūrēiのアプリ、実験、参照作品を束ねる活版印刷の索引（試作 v2）。">
+  <title>ŪRĒI — WORKS INDEX（v2 試作）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Shippori+Mincho:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="v2.css">
+</head>
+<body>
+  <div class="paper" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <a class="mark" href="#top"><span class="pressable" data-press data-depth="1.2">ŪRĒI</span></a>
+    <nav class="masthead-nav" aria-label="主なページ">
+      <a href="#works">Works</a>
+      <a href="#references">References</a>
+      <a href="#about">About</a>
+    </nav>
+    <p class="edition">Works Index<br><span id="editionDate"></span></p>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <h1 id="heroTitle" class="pressable" data-press data-depth="1.25">
+        <span class="line">作ったものを、</span>
+        <span class="line">失くさないための入口。</span>
+      </h1>
+      <p class="hero-copy">アプリ、実験、写真、音、そして次の制作につながる参照作品。散らばった公開先を、一枚の索引へ刷り直す。</p>
+    </section>
+
+    <section class="block" id="works" aria-labelledby="worksTitle">
+      <header class="block-head">
+        <p class="folio">01</p>
+        <h2 id="worksTitle"><span class="pressable" data-press>Works</span></h2>
+        <p class="block-note">アプリと実験の目録</p>
+      </header>
+
+      <div class="controls">
+        <div class="switch genre" id="genreSwitch" role="group" aria-label="ジャンルで絞り込む"></div>
+        <div class="switch status" role="group" aria-label="状態で絞り込む">
+          <button type="button" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" data-filter="live" aria-pressed="false">Live</button>
+          <button type="button" data-filter="development" aria-pressed="false">In development</button>
+          <button type="button" data-filter="seeking" aria-pressed="false">Source hunting</button>
+          <button type="button" data-filter="archived" aria-pressed="false">Archived</button>
+        </div>
+        <p class="sr-only" id="filterStatus" role="status" aria-live="polite"></p>
+      </div>
+
+      <ol class="catalogue" id="workList"></ol>
+      <p class="empty" id="emptyState" hidden>この組み合わせには、まだ作品がありません。</p>
+    </section>
+
+    <section class="block" id="references" aria-labelledby="referencesTitle">
+      <header class="block-head">
+        <p class="folio">02</p>
+        <h2 id="referencesTitle"><span class="pressable" data-press>References</span></h2>
+        <p class="block-note">次の制作のための参照</p>
+      </header>
+      <ul class="refs" id="referenceList"></ul>
+    </section>
+
+    <section class="block about" id="about" aria-labelledby="aboutTitle">
+      <header class="block-head">
+        <p class="folio">03</p>
+        <h2 id="aboutTitle"><span class="pressable" data-press>About</span></h2>
+      </header>
+      <div class="about-copy">
+        <p>ここは完成作品だけを飾るポートフォリオではありません。公開中のアプリ、途中の実験、所在を探している作品まで残す制作の母艦です。</p>
+        <p>正式なソースは順次GitHubへ整理し、公開先が変わっても、この入口から辿れる状態を保ちます。</p>
+      </div>
+      <dl class="legend">
+        <div><dt>Live</dt><dd>現在開ける作品</dd></div>
+        <div><dt>In development</dt><dd>制作中・実験中</dd></div>
+        <div><dt>Source hunting</dt><dd>URLやソースを捜索中</dd></div>
+        <div><dt>Archived</dt><dd>ソースを保存済み</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>ŪRĒI — Digital letterpress, set in Japan.</p>
+    <p><a href="../">現行版</a><a href="../admin.html">Admin</a></p>
+  </footer>
+
+  <script>
+    (function(){
+      var load=function(src,done){var s=document.createElement('script');s.src=src;s.onload=done;s.onerror=done;document.body.appendChild(s);};
+      load('../data.js?t='+Date.now(),function(){load('press.js',function(){load('v2.js');});});
+    })();
+  </script>
+</body>
+</html>
