@@ -18,7 +18,7 @@
 
   // 版表示
   const updated=data.meta&&data.meta.updated;
-  if(updated) $('editionDate').innerHTML=`<time datetime="${esc(updated)}">${esc(updated.replace(/-/g,'.'))}</time>`;
+  if(updated&&$('editionDate')) $('editionDate').innerHTML=`<time datetime="${esc(updated)}">${esc(updated.replace(/-/g,'.'))}</time>`;
 
   // 作品
   function item(w){

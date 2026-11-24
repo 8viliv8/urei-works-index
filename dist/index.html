@@ -14,7 +14,7 @@
     <a class="brand" href="#top" aria-label="トップへ">
       <span>ŪRĒI</span><i aria-hidden="true"></i>
     </a>
-    <div class="edition">WORKS INDEX<br><span id="editionDate"></span></div>
+    <a class="edition qr pressable" href="./" data-press data-press-image="assets/qr-index.svg" data-depth=".8" aria-label="このページのQRコード（スマートフォンのカメラで読み取って開く）"><img src="assets/qr-index.svg" alt="" width="72" height="72"></a>
     <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav">INDEX</button>
   </header>
 
@@ -87,7 +87,7 @@
     // data.js はブラウザに古い版が残りやすいので、毎回最新を読み込む（管理画面で追加した作品をすぐ反映するため）。
     (function(){
       var load=function(src,done){var s=document.createElement('script');s.src=src;s.onload=done;s.onerror=done;document.body.appendChild(s);};
-      load('data.js?t='+Date.now(),function(){load('app.js');});
+      load('data.js?t='+Date.now(),function(){load('app.js',function(){load('v2/press.js',function(){if(window.UREI_PRESS)UREI_PRESS.render(document);});});});
     })();
   </script>
 </body>

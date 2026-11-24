@@ -47,7 +47,11 @@
     const mc=mask.getContext('2d');
     mc.scale(scale,scale);
     mc.fillStyle='#000';mc.textBaseline='alphabetic';
-    const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+    if(el._pressImg){ // 画像（QRコードなど）を刷る：要素の大きさいっぱいに描く
+      mc.imageSmoothingEnabled=false;
+      mc.drawImage(el._pressImg,pad,pad,box.width,box.height);
+    }
+    const walker=el._pressImg?document.createTreeWalker(document.createElement('i'),NodeFilter.SHOW_TEXT):document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
     const range=document.createRange();
     let node;
     while((node=walker.nextNode())){
@@ -140,6 +144,9 @@
     await waitFonts();
     const els=[...root.querySelectorAll('[data-press]')];
     for(const el of els){
+      if(el.dataset.pressImage&&!el._pressImg){
+        try{const img=new Image();img.src=el.dataset.pressImage;await img.decode();el._pressImg=img;}catch(e){continue;}
+      }
       if(!force&&el.classList.contains('is-pressed')&&el.dataset.pressedW===String(Math.round(el.getBoundingClientRect().width))) continue;
       try{pressElement(el);}catch(e){el.classList.remove('is-pressed');console.warn('press failed',e);}
       await new Promise(r=>requestAnimationFrame(r)); // 1要素ずつ刷って画面を固めない

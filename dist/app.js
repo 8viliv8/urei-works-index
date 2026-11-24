@@ -94,5 +94,7 @@
   const pulse=document.getElementById('inkPulse');
   document.getElementById('inkButton').addEventListener('click',()=>{pulse.classList.remove('go');requestAnimationFrame(()=>pulse.classList.add('go'));});
   pulse.addEventListener('animationend',()=>pulse.classList.remove('go'));
+  const onScroll=()=>document.body.classList.toggle('scrolled',window.scrollY>120);
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
   renderWorks();
 })();

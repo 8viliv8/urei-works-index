@@ -15,6 +15,10 @@ button{border:0;background:none;cursor:pointer}
 .brand i:before,.brand i:after{content:"";position:absolute;background:var(--ink)}
 .brand i:before{width:1px;height:14px;left:4px}.brand i:after{width:8px;height:1px;left:0;top:4px}
 .edition{text-align:center;color:#7c7e77;font:10px/1.5 Inter,sans-serif;letter-spacing:.18em}
+.qr{position:relative;display:block;width:72px;height:72px;font-size:9px;justify-self:center;transition:opacity .25s}
+.qr img{display:block;width:100%;height:100%}
+.qr.is-pressed img{opacity:0}
+.scrolled .qr{opacity:0;pointer-events:none}
 .menu-button{justify-self:end;padding:5px 0;border-bottom:1px solid var(--ink);font-size:11px;letter-spacing:.18em}
 .site-nav{position:fixed;z-index:14;right:22px;top:62px;width:min(260px,calc(100vw - 44px));padding:24px;background:rgba(246,243,233,.88);border:1px solid rgba(39,52,47,.16);box-shadow:0 28px 60px -35px var(--shadow);backdrop-filter:blur(18px);transform:translateY(-12px);opacity:0;visibility:hidden;pointer-events:none;transition:.25s ease}
 .site-nav.open{transform:none;opacity:1;visibility:visible;pointer-events:auto}
