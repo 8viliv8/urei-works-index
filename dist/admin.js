@@ -172,6 +172,7 @@
     e.preventDefault();
     const msg=$('setupMessage'),btn=$('setupButton');
     const tok=$('setupToken').value.trim(),p1=$('setupPass').value,p2=$('setupPass2').value;
+    if(!/^(github_pat_|ghp_)[A-Za-z0-9_]+$/.test(tok)){say(msg,`GITHUB TOKEN の欄の内容が鍵の形をしていません（${tok.length}文字・先頭「${esc(tok.slice(0,11))}」）。github_pat_ で始まる文字列をそのまま貼ってください。`,true);return;}
     if(p1!==p2){say(msg,'確認用のパスワードが一致しません。',true);return;}
     if(p1.length<16){say(msg,'パスワードは16文字以上にしてください。',true);return;}
     btn.disabled=true;say(msg,'鍵を確認しています…');
@@ -189,7 +190,7 @@
       say($('addMessage'),'鍵を保存しました。次回からはパスワードだけでログインできます。');
     }catch(err){
       token=null;
-      say(msg,err.status===401?'GitHubの鍵が正しくないか、期限切れです。':`保存できませんでした：${err.message}`,true);
+      say(msg,err.status===401?`GitHubの鍵が正しくないか、期限切れです（貼られた鍵：${tok.length}文字、先頭「${esc(tok.slice(0,11))}」）。`:`保存できませんでした：${err.message}`,true);
     }finally{btn.disabled=false;}
   });
 
