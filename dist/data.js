@@ -1,7 +1,14 @@
 window.UREI_INDEX = {
+  // 版表示に使う更新情報。内容を更新したらここを手で書き換える（閲覧日ではない）。
+  meta: {
+    updated: "2026-11-24"
+  },
+  // status: "live" | "development" | "seeking" | "archived"
+  // no: 索引番号。一度付けたら変えない（フィルターや並び替えで振り直さない）。
   works: [
     {
       id: "noir-lens",
+      no: 1,
       title: "NOIR / LENS",
       description: "写真を切り、重ね、空間へ展開するカメラ／3D実験。",
       status: "live",
@@ -12,6 +19,7 @@ window.UREI_INDEX = {
     },
     {
       id: "letterpress",
+      no: 2,
       title: "LETTERPRESS",
       description: "文字、紙、印圧、かすれを自分の手で組み直す活版印刷体験。",
       status: "live",
@@ -22,6 +30,7 @@ window.UREI_INDEX = {
     },
     {
       id: "urei-share",
+      no: 3,
       title: "ŪRĒI SHARE",
       description: "さまざまな人と、さまざまなものを共有するページ。公開URLを捜索中。",
       status: "seeking",
@@ -32,9 +41,10 @@ window.UREI_INDEX = {
     },
     {
       id: "tech-radar",
+      no: 4,
       title: "CREATIVE TECH RADAR",
       description: "過去の参照作品と現在の技術を結び、次のアプリに使うための制作索引。",
-      status: "seeking",
+      status: "development",
       statusLabel: "IN DEVELOPMENT",
       origin: "THIS INDEX",
       url: "#references",

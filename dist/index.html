@@ -15,7 +15,7 @@
       <span>ŪRĒI</span><i aria-hidden="true"></i>
     </a>
     <div class="edition">WORKS INDEX<br><span id="editionDate"></span></div>
-    <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="siteNav">INDEX</button>
+    <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="siteNav">INDEX</button>
   </header>
 
   <nav class="site-nav" id="siteNav" aria-label="主なページ">
@@ -38,10 +38,13 @@
       <header class="section-head">
         <div><p>01 / WORKS</p><h2 id="worksTitle">APPLICATIONS &amp; EXPERIMENTS</h2></div>
         <div class="filters" role="group" aria-label="作品を絞り込む">
-          <button class="filter active" data-filter="all">ALL</button>
-          <button class="filter" data-filter="live">LIVE</button>
-          <button class="filter" data-filter="seeking">SOURCE HUNTING</button>
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">ALL</button>
+          <button class="filter" type="button" data-filter="live" aria-pressed="false">LIVE</button>
+          <button class="filter" type="button" data-filter="development" aria-pressed="false">IN DEVELOPMENT</button>
+          <button class="filter" type="button" data-filter="seeking" aria-pressed="false">SOURCE HUNTING</button>
+          <button class="filter" type="button" data-filter="archived" aria-pressed="false">ARCHIVED</button>
         </div>
+        <p class="sr-only" id="filterStatus" role="status" aria-live="polite"></p>
       </header>
       <div class="work-list" id="workList"></div>
       <p class="empty-state" id="emptyState" hidden>この分類には、まだ作品がありません。</p>
@@ -65,6 +68,7 @@
       </div>
       <div class="status-key" aria-label="ステータスの説明">
         <span><i class="dot live"></i>LIVE — 現在開ける作品</span>
+        <span><i class="dot development"></i>IN DEVELOPMENT — 制作中・実験中</span>
         <span><i class="dot seeking"></i>SOURCE HUNTING — URLやソースを捜索中</span>
         <span><i class="dot archive"></i>ARCHIVED — ソースを保存済み</span>
       </div>
