@@ -59,7 +59,7 @@
 
   // 参照
   $('referenceList').innerHTML=(data.references||[]).map(r=>`<li class="ref"><a href="${esc(r.url)}" target="_blank" rel="noopener">
-    <small>${esc(r.source)}</small><h3><span class="pressable" data-press data-wear=".45">${esc(r.title)}</span></h3><p>${esc(r.note)}</p><span class="tags">${(r.tags||[]).map(esc).join(' · ')}</span></a></li>`).join('');
+    <small>${esc(r.source)}</small><h3><span class="pressable" data-press>${esc(r.title)}</span></h3><p>${esc(r.note)}</p><span class="tags">${(r.tags||[]).map(esc).join(' · ')}</span></a></li>`).join('');
 
   render();
   if(press) press.render(document);

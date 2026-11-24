@@ -85,7 +85,8 @@
     const seed=(el.textContent.length*131+Math.round(box.width))|0;
     const noise=makeNoise(seed), grain=makeNoise(seed+7);
     const ink=hexToRgb(el.dataset.ink||cs.getPropertyValue('--press-ink')||'#23262a');
-    const wear=parseFloat(el.dataset.wear||cs.getPropertyValue('--press-wear'))||.55;
+    const wearRaw=parseFloat(el.dataset.wear??cs.getPropertyValue('--press-wear'));
+    const wear=Number.isFinite(wearRaw)?wearRaw:0; // かすれの量（0 = かすれなし）
     const wearK=wear*(.5+.5*smooth(16,48,fontSize)); // 小さい文字はかすれを控えめにして読みやすく
     const depth=parseFloat(el.dataset.depth||cs.getPropertyValue('--press-depth'))||1;
     const coarse=Math.max(5,fs*.09), fine=Math.max(1.1,px*1.05);
@@ -103,7 +104,7 @@
         const starve=smooth(.5,.88,nC)*wearK*(.35+.65*interior);
         const holes=smooth(.74,.93,nF)*.7*(.4+.6*interior)*wearK;
         let cov=mv*clamp(1-starve*.7-holes,0,1);
-        const halo=smooth(.12,.7,bSmall[i])*.26*(1-mv);   // 縁のにじみ
+        const halo=smooth(.12,.7,bSmall[i])*(.08+.18*wear)*(1-mv);   // にじみ（かすれなしの時は控えめ）   // 縁のにじみ
         cov=clamp(Math.max(cov,halo*(.6+.4*nC)),0,1);
         // 凹み（紙が押されて光と影ができる）
         const gx=(bWide[i+1<n?i+1:i]-bWide[i>0?i-1:i])*.5, gy=(bWide[i+W<n?i+W:i]-bWide[i>=W?i-W:i])*.5;
