@@ -63,6 +63,19 @@ window.UREI_INDEX = {
       url: "#references",
       genres: [],
       ink: "#a34533"
+    },
+    {
+      id: "luxury-1912",
+      no: 5,
+      title: "LUXURY 1912",
+      description: "",
+      status: "live",
+      statusLabel: "LIVE",
+      origin: "GITHUB PAGES",
+      url: "https://8viliv8.github.io/observation-console/luxury1912/",
+      genres: ["music"],
+      added: "2026-11-24",
+      ink: "#c99a1e"
     }
     // @@WORKS_END — 管理画面はこの行の直前に作品を追加する。この行は消さない。
   ],
